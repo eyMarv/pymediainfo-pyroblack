@@ -33,13 +33,13 @@ if os.path.exists(bin_license):
         pass
 
 setup(
-    name='pymediainfo-pyrofork',
-    author='wulan17',
-    author_email='mayuri@mayuri.my.id',
-    url='https://github.com/Mayuri-Chan/pymediainfo-pyrofork',
+    name='pymediainfo-pyroblack',
+    author='eyMarv',
+    author_email='eyMarv07@gmail.com',
+    url='https://github.com/eyMarv/pymediainfo-pyroblack',
     project_urls={
         "Documentation": "https://pymediainfo.readthedocs.io/",
-        "Bugs": "https://github.com/Mayuri-Chan/pymediainfo-pyrofork/issues",
+        "Bugs": "https://github.com/eyMarv/pymediainfo-pyroblack/issues",
     },
     description="""A Python wrapper for the mediainfo library.""",
     long_description=long_description,
