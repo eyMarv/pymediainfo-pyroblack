@@ -35,6 +35,7 @@ if os.path.exists(bin_license):
 
 setup(
     name="pymediainfo-pyroblack",
+    version="6.1.1",
     author="eyMarv",
     author_email="eyMarv07@gmail.com",
     url="https://github.com/eyMarv/pymediainfo-pyroblack",
