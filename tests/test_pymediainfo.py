@@ -66,13 +66,16 @@ class MediaInfoTest(unittest.TestCase):
         general_track = general_tracks[0]
         self.assertEqual(5, len(general_track.other_file_size))
         self.assertEqual(
-            ["1mn 1s", "1mn 1s 394ms", "1mn 1s", "00:01:01.394"], general_track.other_duration
+            ["1mn 1s", "1mn 1s 394ms", "1mn 1s", "00:01:01.394"],
+            general_track.other_duration,
         )
 
     def test_track_existing_other_attributes(self):
         with open(os.path.join(data_dir, "issue100.xml"), encoding="utf-8") as f:
             media_info = MediaInfo(f.read())
-        general_tracks = [track for track in media_info.tracks if track.track_type == "General"]
+        general_tracks = [
+            track for track in media_info.tracks if track.track_type == "General"
+        ]
         general_track = general_tracks[0]
         self.assertEqual(general_track.other_format_list, "RTP / RTP")
 
@@ -95,7 +98,9 @@ class MediaInfoInvalidXMLTest(unittest.TestCase):
 class MediaInfoLibraryTest(unittest.TestCase):
     def setUp(self):
         self.media_info = MediaInfo.parse(os.path.join(data_dir, "sample.mp4"))
-        self.non_full_mi = MediaInfo.parse(os.path.join(data_dir, "sample.mp4"), full=False)
+        self.non_full_mi = MediaInfo.parse(
+            os.path.join(data_dir, "sample.mp4"), full=False
+        )
 
     def test_can_parse_true(self):
         self.assertTrue(MediaInfo.can_parse())
@@ -122,9 +127,12 @@ class MediaInfoLibraryTest(unittest.TestCase):
             nonexistent_library = os.path.join(tmp_dir, "nonexistent-libmediainfo.so")
             with pytest.raises(OSError) as exc:
                 MediaInfo.parse(
-                    os.path.join(data_dir, "sample.mp4"), library_file=nonexistent_library
+                    os.path.join(data_dir, "sample.mp4"),
+                    library_file=nonexistent_library,
                 )
-            assert rf"Failed to load library from {nonexistent_library}" in str(exc.value)
+            assert rf"Failed to load library from {nonexistent_library}" in str(
+                exc.value
+            )
 
 
 class MediaInfoFileLikeTest(unittest.TestCase):
@@ -234,7 +242,9 @@ class MediaInfoCoverDataTest(unittest.TestCase):
         self.cover_mi = MediaInfo.parse(
             os.path.join(data_dir, "sample_with_cover.mp3"), cover_data=True
         )
-        self.no_cover_mi = MediaInfo.parse(os.path.join(data_dir, "sample_with_cover.mp3"))
+        self.no_cover_mi = MediaInfo.parse(
+            os.path.join(data_dir, "sample_with_cover.mp3")
+        )
 
     def test_parse_cover_data(self):
         self.assertEqual(
@@ -279,7 +289,9 @@ class MediaInfoSlowParseTest(unittest.TestCase):
 class MediaInfoEqTest(unittest.TestCase):
     def setUp(self):
         self.mp3_mi = MediaInfo.parse(os.path.join(data_dir, "sample_with_cover.mp3"))
-        self.mp3_other_mi = MediaInfo.parse(os.path.join(data_dir, "sample_with_cover.mp3"))
+        self.mp3_other_mi = MediaInfo.parse(
+            os.path.join(data_dir, "sample_with_cover.mp3")
+        )
         self.mp4_mi = MediaInfo.parse(os.path.join(data_dir, "sample.mp4"))
 
     def test_eq(self):
@@ -377,7 +389,9 @@ def test_filelike_returns_the_same(test_file):
     with open(filename, "rb") as f:
         mi_from_file = MediaInfo.parse(f)
     assert len(mi_from_file.tracks) == len(mi_from_filename.tracks)
-    for track_from_file, track_from_filename in zip(mi_from_file.tracks, mi_from_filename.tracks):
+    for track_from_file, track_from_filename in zip(
+        mi_from_file.tracks, mi_from_filename.tracks
+    ):
         # The General track will differ, typically not giving the file name
         if track_from_file.track_type != "General":
             # Test dicts first because they will produce a diff
@@ -397,7 +411,9 @@ class MediaInfoOutputTest(unittest.TestCase):
                 "This version of the library does not support JSON output "
                 "(v{} detected, v18.03 required)".format(lib_version_str)
             )
-        media_info = MediaInfo.parse(os.path.join(data_dir, "sample.mp4"), output="JSON")
+        media_info = MediaInfo.parse(
+            os.path.join(data_dir, "sample.mp4"), output="JSON"
+        )
         parsed = json.loads(media_info)
         self.assertEqual(parsed["media"]["track"][0]["FileSize"], "404567")
 

@@ -10,10 +10,10 @@ data_files = []
 bin_files = []
 cmdclass = {}
 
-bin_license = 'docs/License.html'
+bin_license = "docs/License.html"
 if os.path.exists(bin_license):
-    data_files.append(('docs', [bin_license]))
-    bin_files.extend(['MediaInfo.dll', 'libmediainfo.*'])
+    data_files.append(("docs", [bin_license]))
+    bin_files.extend(["MediaInfo.dll", "libmediainfo.*"])
     try:
         from wheel.bdist_wheel import bdist_wheel
 
@@ -22,21 +22,22 @@ if os.path.exists(bin_license):
                 bdist_wheel.finalize_options(self)
                 # Force the wheel to be marked as platform-specific
                 self.root_is_pure = False
+
             def get_tag(self):
                 python, abi, plat = bdist_wheel.get_tag(self)
                 # The python code works for any Python version,
                 # not just the one we are running to build the wheel
-                return 'py3', 'none', plat
+                return "py3", "none", plat
 
-        cmdclass['bdist_wheel'] = platform_bdist_wheel
+        cmdclass["bdist_wheel"] = platform_bdist_wheel
     except ImportError:
         pass
 
 setup(
-    name='pymediainfo-pyroblack',
-    author='eyMarv',
-    author_email='eyMarv07@gmail.com',
-    url='https://github.com/eyMarv/pymediainfo-pyroblack',
+    name="pymediainfo-pyroblack",
+    author="eyMarv",
+    author_email="eyMarv07@gmail.com",
+    url="https://github.com/eyMarv/pymediainfo-pyroblack",
     project_urls={
         "Documentation": "https://pymediainfo.readthedocs.io/",
         "Bugs": "https://github.com/eyMarv/pymediainfo-pyroblack/issues",
@@ -47,13 +48,13 @@ setup(
     namespace_packages=[],
     include_package_data=True,
     zip_safe=False,
-    license='MIT',
+    license="MIT",
     data_files=data_files,
     use_scm_version=True,
     python_requires=">=3.7",
     setup_requires=["setuptools-scm"],
     install_requires=["importlib_metadata; python_version < '3.8'"],
-    package_data={'pymediainfo': bin_files},
+    package_data={"pymediainfo": bin_files},
     cmdclass=cmdclass,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -69,5 +70,5 @@ setup(
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
         "License :: OSI Approved :: MIT License",
-    ]
+    ],
 )

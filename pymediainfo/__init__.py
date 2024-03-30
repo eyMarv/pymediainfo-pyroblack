@@ -105,7 +105,9 @@ class Track:
                         pass
 
     def __repr__(self):  # type: ignore
-        return "<Track track_id='{}', track_type='{}'>".format(self.track_id, self.track_type)
+        return "<Track track_id='{}', track_type='{}'>".format(
+            self.track_id, self.track_type
+        )
 
     def to_data(self) -> Dict[str, Any]:
         """
@@ -446,14 +448,18 @@ class MediaInfo:
         lib.MediaInfo_Option(handle, "Inform", xml_option if output is None else output)
         lib.MediaInfo_Option(handle, "Complete", "1" if full else "")
         lib.MediaInfo_Option(handle, "ParseSpeed", str(parse_speed))
-        lib.MediaInfo_Option(handle, "LegacyStreamDisplay", "1" if legacy_stream_display else "")
+        lib.MediaInfo_Option(
+            handle, "LegacyStreamDisplay", "1" if legacy_stream_display else ""
+        )
         if mediainfo_options is not None:
             if lib_version < (19, 9):
                 warnings.warn(
                     "This version of MediaInfo (v{}) does not support resetting all "
                     "options to their default values, passing it custom options is not recommended "
                     "and may result in unpredictable behavior, see "
-                    "https://github.com/MediaArea/MediaInfoLib/issues/1128".format(lib_version_str),
+                    "https://github.com/MediaArea/MediaInfoLib/issues/1128".format(
+                        lib_version_str
+                    ),
                     RuntimeWarning,
                 )
             for option_name, option_value in mediainfo_options.items():
@@ -465,7 +471,9 @@ class MediaInfo:
         except AttributeError:  # filename is not a file-like object
             file_size = None
 
-        if file_size is not None:  # We have a file-like object, use the buffer protocol:
+        if (
+            file_size is not None
+        ):  # We have a file-like object, use the buffer protocol:
             # Some file-like objects do not have a mode
             if "b" not in getattr(filename, "mode", "b"):
                 raise ValueError("File should be opened in binary mode")
@@ -475,7 +483,10 @@ class MediaInfo:
                 if buffer:
                     # https://github.com/MediaArea/MediaInfoLib/blob/v20.09/Source/MediaInfo/File__Analyze.h#L1429
                     # 4th bit = finished
-                    if lib.MediaInfo_Open_Buffer_Continue(handle, buffer, len(buffer)) & 0x08:
+                    if (
+                        lib.MediaInfo_Open_Buffer_Continue(handle, buffer, len(buffer))
+                        & 0x08
+                    ):
                         break
                     # Ask MediaInfo if we need to seek
                     seek = lib.MediaInfo_Open_Buffer_Continue_GoTo_Get(handle)
@@ -483,7 +494,9 @@ class MediaInfo:
                     if seek != ctypes.c_uint64(-1).value:
                         filename.seek(seek)
                         # Inform MediaInfo we have sought
-                        lib.MediaInfo_Open_Buffer_Init(handle, file_size, filename.tell())
+                        lib.MediaInfo_Open_Buffer_Init(
+                            handle, file_size, filename.tell()
+                        )
                 else:
                     break
             lib.MediaInfo_Open_Buffer_Finalize(handle)
@@ -498,7 +511,8 @@ class MediaInfo:
                     raise FileNotFoundError(filename)
                 # We ran into another kind of error
                 raise RuntimeError(
-                    "An error occured while opening {}" " with libmediainfo".format(filename)
+                    "An error occured while opening {}"
+                    " with libmediainfo".format(filename)
                 )
         info: str = lib.MediaInfo_Inform(handle, 0)
         # Reset all options to their defaults so that they aren't

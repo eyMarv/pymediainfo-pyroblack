@@ -22,7 +22,7 @@ def process(fname):
         pprint(track.to_data())
     print()
     for track in media_info.tracks:
-        if track.track_type == 'General' and track.duration:
+        if track.track_type == "General" and track.duration:
             print("Duration: {} sec.".format(track.duration / 1000.0))
 
 
